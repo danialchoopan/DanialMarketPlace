@@ -1,0 +1,19 @@
+@page
+@model MarketPlaceCore.Web.Pages.ProductDetailsModel
+@{
+    ViewData["Title"] = "جزئیات محصول";
+}
+@if (Model.Product != null)
+{
+    <div class="flex flex-col md:flex-row gap-12">
+        <div class="w-full md:w-1/2 bg-gray-100 dark:bg-gray-700 h-96 rounded-lg flex items-center justify-center">
+            <span class="text-gray-400">تصویر محصول</span>
+        </div>
+        <div class="w-full md:w-1/2">
+            <h2 class="text-3xl font-bold mb-4">@Model.Product.Name</h2>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">@Model.Product.Description</p>
+            <p class="text-2xl font-bold text-blue-600 mb-8">@Model.Product.Price.ToString("N0") تومان</p>
+            <button class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 w-full md:w-auto">افزودن به سبد خرید</button>
+        </div>
+    </div>
+}

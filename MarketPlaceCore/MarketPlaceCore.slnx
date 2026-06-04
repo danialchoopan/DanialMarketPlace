@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MarketPlaceCore.Core/MarketPlaceCore.Core.csproj" />
+    <Project Path="src/MarketPlaceCore.Infrastructure/MarketPlaceCore.Infrastructure.csproj" />
+    <Project Path="src/MarketPlaceCore.Web/MarketPlaceCore.Web.csproj" />
+  </Folder>
+</Solution>

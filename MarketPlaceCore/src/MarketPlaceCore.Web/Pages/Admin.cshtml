@@ -1,0 +1,54 @@
+@page
+@model MarketPlaceCore.Web.Pages.AdminModel
+@{
+    ViewData["Title"] = "پنل مدیریت";
+}
+
+<h2 class="text-3xl font-bold mb-6">داشبورد مدیریت</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div class="bg-blue-500 text-white p-4 rounded shadow">
+        <p class="text-sm">فروش کل</p>
+        <p class="text-2xl font-bold">۱۲۴,۰۰۰,۰۰۰ تومان</p>
+    </div>
+    <div class="bg-green-500 text-white p-4 rounded shadow">
+        <p class="text-sm">تعداد سفارشات</p>
+        <p class="text-2xl font-bold">۴۵</p>
+    </div>
+    <div class="bg-yellow-500 text-white p-4 rounded shadow">
+        <p class="text-sm">موجودی انبار</p>
+        <p class="text-2xl font-bold">۱۸۰ کالا</p>
+    </div>
+    <div class="bg-purple-500 text-white p-4 rounded shadow">
+        <p class="text-sm">کاربران جدید</p>
+        <p class="text-2xl font-bold">۱۲</p>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+    <h3 class="text-xl font-bold mb-4">مدیریت محصولات</h3>
+    <table class="w-full text-right">
+        <thead>
+            <tr class="border-b dark:border-gray-700">
+                <th class="p-2">نام محصول</th>
+                <th class="p-2">قیمت</th>
+                <th class="p-2">موجودی</th>
+                <th class="p-2">عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var p in Model.Products)
+            {
+                <tr class="border-b dark:border-gray-700">
+                    <td class="p-2">@p.Name</td>
+                    <td class="p-2">@p.Price.ToString("N0")</td>
+                    <td class="p-2">@p.Stock</td>
+                    <td class="p-2">
+                        <button class="text-blue-500 hover:underline ml-2">ویرایش</button>
+                        <button class="text-red-500 hover:underline">حذف</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
