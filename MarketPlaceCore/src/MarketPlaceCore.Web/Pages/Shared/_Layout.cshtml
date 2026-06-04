@@ -1,79 +1,76 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MarketPlaceCore - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="/css/tailwind.min.css" />
     <style>
-        :root { --primary: #2563eb; --bg-light: #f8fafc; --text-light: #0f172a; }
-        body { margin: 0; padding: 0; direction: rtl; font-family: Tahoma, sans-serif; background-color: var(--bg-light); color: var(--text-light); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-        header { background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 0; position: sticky; top: 0; z-index: 50; }
-        .flex { display: flex; }
-        .flex-col { flex-direction: column; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .grid { display: grid; gap: 1.5rem; }
-        .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-        .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-        .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-        .lg\:grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
-        .bg-primary { background-color: var(--primary); }
-        .text-white { color: white; }
-        .p-4 { padding: 1rem; }
-        .p-6 { padding: 1.5rem; }
-        .p-8 { padding: 2rem; }
-        .p-12 { padding: 3rem; }
-        .rounded-xl { border-radius: 0.75rem; }
-        .rounded-2xl { border-radius: 1rem; }
-        .rounded-3xl { border-radius: 1.5rem; }
-        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
-        .text-2xl { font-size: 1.5rem; }
-        .text-4xl { font-size: 2.25rem; }
-        .text-5xl { font-size: 3rem; }
-        .font-bold { font-weight: 700; }
-        .font-extrabold { font-weight: 800; }
-        .mb-4 { margin-bottom: 1rem; }
-        .mb-6 { margin-bottom: 1.5rem; }
-        .mb-16 { margin-bottom: 4rem; }
-        .text-primary { color: var(--primary); }
-        nav a { margin-left: 1.5rem; text-decoration: none; color: inherit; font-weight: 600; }
-        .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; text-decoration: none; border: none; cursor: pointer; }
-        .btn-primary { background: var(--primary); color: white; }
-        .card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 1.5rem; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        .hero { background: var(--primary); color: white; padding: 4rem 2rem; border-radius: 2rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
-        .badge { background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; }
+        :root { --primary: #2563eb; --primary-soft: rgba(37, 99, 235, 0.1); }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; transition: background 0.3s, color 0.3s; margin: 0; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #e2e8f0; }
+        .dark .glass { background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid #334155; }
+        .card-modern { background: white; border: 1px solid #e2e8f0; border-radius: 2rem; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dark .card-modern { background: #1e293b; border-color: #334155; }
+        .card-modern:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); }
+        .btn-modern { padding: 0.8rem 1.5rem; border-radius: 1rem; font-weight: 800; transition: 0.2s; cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3); }
+        .btn-primary:hover { background: #1d4ed8; transform: scale(1.02); }
+        .btn-secondary { background: #f1f5f9; color: #0f172a; }
+        .dark .btn-secondary { background: #334155; color: white; }
     </style>
 </head>
-<body>
-    <header>
-        <div class="container flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="/" class="text-2xl font-bold text-primary">MarketPlaceCore</a>
-                <nav style="margin-right: 2rem;">
-                    <a href="/">صفحه اصلی</a>
-                    <a href="/Products">فروشگاه</a>
-                    <a href="/Admin">مدیریت</a>
+<body class="light bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+    <header class="glass sticky top-0 z-50">
+        <div class="container py-4 flex justify-between items-center">
+            <div class="flex items-center gap-10">
+                <a href="/" class="text-2xl font-black text-primary tracking-tighter" style="text-decoration:none">MarketPlaceCore</a>
+                <nav class="hidden md:flex gap-8 text-sm font-bold opacity-70">
+                    <a href="/" class="hover:text-primary transition" style="text-decoration:none">صفحه اصلی</a>
+                    <a href="/Products" class="hover:text-primary transition" style="text-decoration:none">فروشگاه</a>
+                    <a href="/Admin" class="hover:text-primary transition" style="text-decoration:none">پنل مدیریت</a>
                 </nav>
             </div>
-            <div>
-                <a href="/Cart" class="btn">سبد خرید</a>
-                <a href="/Login" class="btn btn-primary">ورود</a>
+            <div class="flex items-center gap-4">
+                <button id="theme-toggle" class="p-3 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 transition border-none cursor-pointer">
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+                </button>
+                <a href="/Cart" class="relative p-3 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 transition text-inherit" style="text-decoration:none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full hidden font-bold">0</span>
+                </a>
+                <a href="/Login" class="btn-modern btn-primary text-sm">ورود به حساب</a>
             </div>
         </div>
     </header>
-    <main class="container" style="padding-top: 2rem;">
+
+    <main class="container py-12 flex-1">
         @RenderBody()
     </main>
-    <footer style="background: #f1f5f9; padding: 3rem 0; margin-top: 4rem; border-top: 1px solid #e2e8f0;">
+
+    <footer class="bg-white dark:bg-gray-800 border-t dark:border-gray-700 py-16 mt-20">
         <div class="container text-center">
-            <p class="font-bold text-primary">MarketPlaceCore</p>
-            <p style="font-size: 0.875rem; opacity: 0.7;">تمامی حقوق محفوظ است 2024</p>
+            <h3 class="text-2xl font-black text-primary mb-2 tracking-tighter">MarketPlaceCore</h3>
+            <p class="text-sm opacity-50 mb-8">قدرتمندترین پلتفرم فروشگاهی اینترپرایز دات نت</p>
+            <div class="text-xs opacity-30 font-bold">تمامی حقوق برای دانیال محفوظ است &copy; 2024</div>
         </div>
     </footer>
-    <script src="/js/cart-logic.js"></script>
+
+    <script src="/js/theme-toggle.js"></script>
+    <script>
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const badge = document.getElementById('cart-badge');
+            if (cart.length > 0) {
+                badge.innerText = cart.reduce((acc, item) => acc + item.quantity, 0);
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateCartBadge);
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -17,18 +17,12 @@ public class ProductDetailsModel : PageModel
 
     public async Task OnGetAsync(int id)
     {
-        Product = await _unitOfWork.Products.GetByIdAsync(id);
+        var products = await _unitOfWork.Products.FindWithIncludes(p => p.Id == id, p => p.Variants);
+        Product = products.FirstOrDefault();
+
         if (Product != null)
         {
-            var variants = await _unitOfWork.ProductVariants.Find(v => v.ProductId == id);
-            Product.Variants = variants.ToList();
-
-            var reviews = await _unitOfWork.Reviews.Find(r => r.ProductId == id);
-            // Include user names for reviews
-            foreach(var r in reviews)
-            {
-                r.User = (await _unitOfWork.Users.Find(u => u.Id == r.UserId)).FirstOrDefault() ?? new User { FullName = "کاربر مهمان" };
-            }
+            var reviews = await _unitOfWork.Reviews.FindWithIncludes(r => r.ProductId == id, r => r.User);
             Product.Reviews = reviews.ToList();
         }
     }

@@ -26,7 +26,9 @@ public class ReviewController : ControllerBase
         int userId = int.Parse(userIdStr);
 
         // Check if user has bought this product (Enterprise Feature: Verified Buyer)
-        var userOrders = await _unitOfWork.Orders.Find(o => o.UserId == userId && o.Status == OrderStatus.Delivered);
+        var userOrders = await _unitOfWork.Orders.FindWithIncludes(
+            o => o.UserId == userId && o.Status == OrderStatus.Delivered,
+            o => o.OrderItems);
         bool isVerified = userOrders.Any(o => o.OrderItems.Any(oi => oi.ProductId == reviewDto.ProductId));
 
         var review = new Review

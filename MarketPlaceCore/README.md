@@ -28,9 +28,11 @@
 
 ۱. اجرای پروژه:
 ```bash
-dotnet run --project src/MarketPlaceCore.Web/MarketPlaceCore.Web.csproj
+dotnet run --project MarketPlaceCore.Web/MarketPlaceCore.Web.csproj
 ```
 دیتابیس در اولین اجرا ساخته شده و با داده های حجیم شامل تنوع ها، نظرات و کدهای تخفیف بذرپاشی می شود.
+
+> **نکته فنی درباره دیتابیس:** در این نسخه برای سهولت در اجرا و جابجایی سریع پروژه، از SQLite استفاده شده است. اما با توجه به معماری Clean Architecture، شما می توانید تنها با تغییر یک خط در فایل `Program.cs` و جایگزینی provider، از SQL Server یا PostgreSQL برای مقیاس پذیری اینترپرایز استفاده کنید.
 
 ## تصاویر سیستم (بدون ایموجی)
 
