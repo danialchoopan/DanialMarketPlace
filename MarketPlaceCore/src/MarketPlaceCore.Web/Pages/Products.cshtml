@@ -1,0 +1,45 @@
+@page
+@model MarketPlaceCore.Web.Pages.ProductsModel
+@{
+    ViewData["Title"] = "آرشیو محصولات";
+}
+
+<h2 class="text-3xl font-bold mb-6 border-b pb-2">لیست محصولات</h2>
+
+<div class="flex flex-col md:flex-row gap-8">
+    <aside class="w-full md:w-1/4 bg-gray-50 dark:bg-gray-800 p-4 rounded border border-gray-200 dark:border-gray-700 h-fit">
+        <h3 class="font-bold mb-4">فیلتر پیشرفته</h3>
+        <div class="mb-4">
+            <label class="block text-sm mb-1">نام محصول</label>
+            <input type="text" class="w-full p-2 border rounded dark:bg-gray-700" placeholder="جستجو...">
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm mb-1">دسته بندی</label>
+            <select class="w-full p-2 border rounded dark:bg-gray-700">
+                <option>همه</option>
+                <option>کالای دیجیتال</option>
+                <option>پوشاک</option>
+            </select>
+        </div>
+        <button class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">اعمال فیلتر</button>
+    </aside>
+
+    <div class="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var p in Model.Products)
+        {
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="h-48 bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                    <span class="text-gray-500">تصویر محصول</span>
+                </div>
+                <div class="p-4">
+                    <h4 class="font-bold text-lg mb-1">@p.Name</h4>
+                    <p class="text-sm text-gray-500 mb-4 h-12 overflow-hidden">@p.Description</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-600 font-bold">@p.Price.ToString("N0") تومان</span>
+                        <a href="/ProductDetails?id=@p.Id" class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded text-sm">جزئیات</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

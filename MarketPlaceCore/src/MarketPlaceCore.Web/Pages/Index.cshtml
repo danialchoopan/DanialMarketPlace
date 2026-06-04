@@ -1,0 +1,27 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "فروشگاه اینترنتی جامع";
+}
+
+<div class="text-center mb-12">
+    <h2 class="text-4xl font-extrabold mb-4">خوش آمدید به MarketPlaceCore</h2>
+    <p class="text-lg text-gray-600 dark:text-gray-400">هسته مرکزی فروشگاه اینترنتی شما با معماری مدرن</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <h3 class="text-xl font-bold mb-2">محصولات برتر</h3>
+        <p>مشاهده لیست جدیدترین و پرفروش‌ترین محصولات فروشگاه.</p>
+        <a href="/Products" class="mt-4 inline-block text-blue-500 hover:underline">مشاهده همه</a>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <h3 class="text-xl font-bold mb-2">تراکنش‌های ایمن</h3>
+        <p>پیاده‌سازی تراکنش‌های مالی با استفاده از الگوی Unit of Work.</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <h3 class="text-xl font-bold mb-2">پنل مدیریت</h3>
+        <p>کنترل کامل بر موجودی، محصولات و آمار فروش در یک نگاه.</p>
+        <a href="/Admin" class="mt-4 inline-block text-blue-500 hover:underline">ورود به پنل</a>
+    </div>
+</div>
