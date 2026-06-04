@@ -1,0 +1,16 @@
+@page
+@model MarketPlaceCore.Web.Pages.OrderSuccessModel
+@{
+    ViewData["Title"] = "ثبت موفق سفارش";
+}
+
+<div class="max-w-2xl mx-auto text-center mt-16 bg-white dark:bg-gray-800 p-12 rounded-[3rem] border dark:border-gray-700 shadow-2xl">
+    <div class="text-8xl mb-8"></div>
+    <h2 class="text-4xl font-extrabold mb-4">سفارش شما با موفقیت ثبت شد!</h2>
+    <p class="text-lg opacity-70 mb-8">شماره پیگیری سفارش شما: <span class="font-bold text-primary">@Request.Query["id"]</span></p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="/Products" class="bg-gray-100 dark:bg-gray-700 py-4 rounded-2xl font-bold hover:bg-gray-200 transition">ادامه خرید</a>
+        <a href="/Profile" class="bg-primary text-white py-4 rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg">پیگیری سفارش</a>
+    </div>
+</div>

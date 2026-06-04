@@ -1,5 +1,6 @@
 using MarketPlaceCore.Core.Entities;
 using MarketPlaceCore.Core.Interfaces;
+using MarketPlaceCore.Web.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,6 @@ namespace MarketPlaceCore.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class OrderController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +18,8 @@ public class OrderController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateOrder([FromBody] OrderDto orderDto)
+    [Authorize]
+    public async Task<IActionResult> CreateOrder([FromBody] OrderRequestDto orderDto)
     {
         var userIdStr = User.FindFirst("UserId")?.Value;
         if (string.IsNullOrEmpty(userIdStr)) return Unauthorized();
@@ -32,35 +33,59 @@ public class OrderController : ControllerBase
                 UserId = userId,
                 TotalAmount = 0,
                 Status = OrderStatus.Pending,
-                OrderItems = new List<OrderItem>()
+                AppliedCouponCode = orderDto.CouponCode
             };
 
             foreach (var item in orderDto.Items)
             {
-                var product = await _unitOfWork.Products.GetByIdAsync(item.ProductId);
-                if (product == null || product.Stock < item.Quantity)
+                decimal unitPrice = 0;
+                if (item.ProductVariantId.HasValue)
                 {
-                    throw new Exception($"موجودی محصول {product?.Name ?? "نامشخص"} کافی نیست");
-                }
+                    var variant = await _unitOfWork.ProductVariants.GetByIdAsync(item.ProductVariantId.Value);
+                    if (variant == null || variant.Stock < item.Quantity)
+                        throw new Exception("موجودی تنوع انتخابی کافی نیست");
 
-                product.Stock -= item.Quantity;
-                _unitOfWork.Products.Update(product);
+                    variant.Stock -= item.Quantity;
+                    _unitOfWork.ProductVariants.Update(variant);
+                    unitPrice = variant.Price;
+                }
+                else
+                {
+                    throw new Exception("انتخاب تنوع محصول الزامی است");
+                }
 
                 var orderItem = new OrderItem
                 {
                     ProductId = item.ProductId,
+                    ProductVariantId = item.ProductVariantId,
                     Quantity = item.Quantity,
-                    UnitPrice = product.Price
+                    UnitPrice = unitPrice
                 };
                 order.OrderItems.Add(orderItem);
-                order.TotalAmount += (orderItem.UnitPrice * orderItem.Quantity);
+                order.TotalAmount += (unitPrice * item.Quantity);
+            }
+
+            // Apply Coupon logic
+            if (!string.IsNullOrEmpty(orderDto.CouponCode))
+            {
+                var coupon = (await _unitOfWork.Coupons.Find(c => c.Code == orderDto.CouponCode)).FirstOrDefault();
+                if (coupon != null && coupon.ExpiryDate > DateTime.UtcNow && coupon.CurrentUsageCount < coupon.MaxUsageCount && order.TotalAmount >= coupon.MinimumOrderAmount)
+                {
+                    if (coupon.DiscountPercentage.HasValue)
+                        order.DiscountAmount = order.TotalAmount * (coupon.DiscountPercentage.Value / 100);
+                    else
+                        order.DiscountAmount = coupon.DiscountAmount;
+
+                    coupon.CurrentUsageCount++;
+                    _unitOfWork.Coupons.Update(coupon);
+                }
             }
 
             await _unitOfWork.Orders.AddAsync(order);
             await _unitOfWork.CompleteAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return Ok(new { OrderId = order.Id, Message = "سفارش با موفقیت ثبت شد" });
+            return Ok(new { OrderId = order.Id, FinalAmount = order.FinalAmount });
         }
         catch (Exception ex)
         {
@@ -68,15 +93,4 @@ public class OrderController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-}
-
-public class OrderDto
-{
-    public List<OrderItemDto> Items { get; set; } = new();
-}
-
-public class OrderItemDto
-{
-    public int ProductId { get; set; }
-    public int Quantity { get; set; }
 }

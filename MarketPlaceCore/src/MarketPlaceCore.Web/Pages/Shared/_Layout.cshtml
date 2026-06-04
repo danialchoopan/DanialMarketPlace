@@ -4,34 +4,76 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MarketPlaceCore - @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/tailwind.min.css" />
-    <script src="~/js/theme-toggle.js"></script>
     <style>
-        body { font-family: Tahoma, Arial, sans-serif; }
-        .dark body { background-color: #1a202c; color: #e2e8f0; }
-        .light body { background-color: #ffffff; color: #1a202c; }
+        :root { --primary: #2563eb; --bg-light: #f8fafc; --text-light: #0f172a; }
+        body { margin: 0; padding: 0; direction: rtl; font-family: Tahoma, sans-serif; background-color: var(--bg-light); color: var(--text-light); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        header { background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 0; position: sticky; top: 0; z-index: 50; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .grid { display: grid; gap: 1.5rem; }
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .md\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .lg\:grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+        .bg-primary { background-color: var(--primary); }
+        .text-white { color: white; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .p-12 { padding: 3rem; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-3xl { border-radius: 1.5rem; }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .text-2xl { font-size: 1.5rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-16 { margin-bottom: 4rem; }
+        .text-primary { color: var(--primary); }
+        nav a { margin-left: 1.5rem; text-decoration: none; color: inherit; font-weight: 600; }
+        .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; text-decoration: none; border: none; cursor: pointer; }
+        .btn-primary { background: var(--primary); color: white; }
+        .card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 1.5rem; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .hero { background: var(--primary); color: white; padding: 4rem 2rem; border-radius: 2rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
+        .badge { background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; }
     </style>
 </head>
-<body class="transition-colors duration-300">
-    <header class="bg-blue-600 dark:bg-blue-900 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">MarketPlaceCore</h1>
-            <nav>
-                <ul class="flex space-x-4 space-x-reverse">
-                    <li><a href="/" class="hover:underline">صفحه اصلی</a></li>
-                    <li><a href="/Products" class="hover:underline">محصولات</a></li>
-                    <li><a href="/Cart" class="hover:underline">سبد خرید</a></li>
-                    <li><button onclick="toggleTheme()" class="bg-gray-200 dark:bg-gray-700 text-black dark:text-white px-3 py-1 rounded">تغییر تم</button></li>
-                </ul>
-            </nav>
+<body>
+    <header>
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/" class="text-2xl font-bold text-primary">MarketPlaceCore</a>
+                <nav style="margin-right: 2rem;">
+                    <a href="/">صفحه اصلی</a>
+                    <a href="/Products">فروشگاه</a>
+                    <a href="/Admin">مدیریت</a>
+                </nav>
+            </div>
+            <div>
+                <a href="/Cart" class="btn">سبد خرید</a>
+                <a href="/Login" class="btn btn-primary">ورود</a>
+            </div>
         </div>
     </header>
-    <main class="container mx-auto mt-8 p-4">
+    <main class="container" style="padding-top: 2rem;">
         @RenderBody()
     </main>
-    <footer class="mt-12 p-8 bg-gray-100 dark:bg-gray-800 text-center border-t border-gray-300 dark:border-gray-700">
-        <p>تمامی حقوق برای MarketPlaceCore محفوظ است. 2024</p>
+    <footer style="background: #f1f5f9; padding: 3rem 0; margin-top: 4rem; border-top: 1px solid #e2e8f0;">
+        <div class="container text-center">
+            <p class="font-bold text-primary">MarketPlaceCore</p>
+            <p style="font-size: 0.875rem; opacity: 0.7;">تمامی حقوق محفوظ است 2024</p>
+        </div>
     </footer>
+    <script src="/js/cart-logic.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

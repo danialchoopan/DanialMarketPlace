@@ -1,27 +1,31 @@
 @page
-@model IndexModel
+@model MarketPlaceCore.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "فروشگاه اینترنتی جامع";
+    ViewData["Title"] = "صفحه اصلی";
 }
+<section class="hero">
+    <span class="badge">فروش ویژه</span>
+    <h1 class="text-5xl font-extrabold mb-4">تجربه خرید هوشمند</h1>
+    <p class="text-lg mb-6">بزرگترین هسته فروشگاهی با تکنولوژی مدرن دات نت</p>
+    <a href="/Products" class="btn" style="background: white; color: var(--primary);">مشاهده محصولات</a>
+</section>
 
-<div class="text-center mb-12">
-    <h2 class="text-4xl font-extrabold mb-4">خوش آمدید به MarketPlaceCore</h2>
-    <p class="text-lg text-gray-600 dark:text-gray-400">هسته مرکزی فروشگاه اینترنتی شما با معماری مدرن</p>
+<div class="grid md:grid-cols-4 gap-4 mb-16">
+    <div class="card">ارسال سریع</div>
+    <div class="card">ضمانت اصالت</div>
+    <div class="card">پشتیبانی ۲۴ ساعته</div>
+    <div class="card">پرداخت در محل</div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="text-xl font-bold mb-2">محصولات برتر</h3>
-        <p>مشاهده لیست جدیدترین و پرفروش‌ترین محصولات فروشگاه.</p>
-        <a href="/Products" class="mt-4 inline-block text-blue-500 hover:underline">مشاهده همه</a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="text-xl font-bold mb-2">تراکنش‌های ایمن</h3>
-        <p>پیاده‌سازی تراکنش‌های مالی با استفاده از الگوی Unit of Work.</p>
-    </div>
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-        <h3 class="text-xl font-bold mb-2">پنل مدیریت</h3>
-        <p>کنترل کامل بر موجودی، محصولات و آمار فروش در یک نگاه.</p>
-        <a href="/Admin" class="mt-4 inline-block text-blue-500 hover:underline">ورود به پنل</a>
-    </div>
+<h2 class="text-3xl font-bold mb-6">دسته بندی های محبوب</h2>
+<div class="grid lg:grid-cols-6 gap-6">
+    @foreach(var cat in Model.Categories)
+    {
+        <a href="/Products?categoryId=@cat.Id" class="card" style="text-decoration: none; color: inherit;">
+            <div class="text-4xl mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"></path></svg>
+            </div>
+            <div class="font-bold">@cat.Name</div>
+        </a>
+    }
 </div>

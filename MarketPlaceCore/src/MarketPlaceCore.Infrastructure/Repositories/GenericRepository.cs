@@ -24,9 +24,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _context.Set<T>().ToListAsync();
     }
 
-    public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+    public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)
     {
-        return _context.Set<T>().Where(expression);
+        return await _context.Set<T>().Where(expression).ToListAsync();
     }
 
     public async Task AddAsync(T entity)
