@@ -46,7 +46,7 @@ docker-compose up --build
 - [راهنمای ادغام اندروید](MarketPlaceCore/androidreadmeapi.md)
 
 ---
-
+-
 # MarketPlaceCore - Modern E-commerce Platform (Enterprise Edition)
 
 A comprehensive and advanced e-commerce system built with **ASP.NET Core 8.0** following Clean Architecture principles, Repository, and Unit of Work patterns.
