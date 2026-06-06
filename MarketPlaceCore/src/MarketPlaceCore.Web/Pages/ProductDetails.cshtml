@@ -1,157 +1,198 @@
 @page "{id:int}"
 @model MarketPlaceCore.Web.Pages.ProductDetailsModel
 @{
-    ViewData["Title"] = Model.Product?.Name ?? "جزئیات محصول";
+    var isEn = Model.HttpContext.Request.Query["lang"] == "en";
+    ViewData["Title"] = Model.Product?.Name;
 }
 
 @if (Model.Product != null)
 {
-    <div class="flex flex-col lg:flex-row gap-12 mb-16">
-        <!-- Image Gallery -->
-        <div class="w-full lg:w-2/5">
-            <div class="bg-white dark:bg-gray-800 rounded-3xl border dark:border-gray-700 p-8 shadow-sm aspect-square flex items-center justify-center sticky top-24">
-                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-gray-200 dark:text-gray-600"><path d="M5 9l4-4 4 4M9 5v14"></path><circle cx="9" cy="19" r="2"></circle><path d="M15 19l4-4 4 4M19 15v4"></path></svg>
-            </div>
-        </div>
-
-        <!-- Product Info -->
-        <div class="flex-1">
-            <div class="flex justify-between items-start mb-4">
-                <h1 class="text-3xl font-extrabold">@Model.Product.Name</h1>
-                <button class="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-red-500 transition" onclick="addToWishlist(@Model.Product.Id)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                </button>
-            </div>
-
-            <p class="text-gray-500 dark:text-gray-400 mb-8 leading-loose">@Model.Product.Description</p>
-
-            <!-- Variants Selection -->
-            <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl mb-8">
-                <h3 class="font-bold mb-4 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg>
-                    انتخاب تنوع محصول
-                </h3>
-                <div class="flex flex-wrap gap-3" id="variant-container">
-                    @foreach (var v in Model.Product.Variants)
+    <div class="flex flex-col lg:flex-row gap-16 items-start">
+        <!-- Media Gallery -->
+        <div class="w-full lg:w-1/2 sticky top-28">
+            <div class="card-modern overflow-hidden bg-white dark:bg-gray-800 p-8">
+                <div class="aspect-square rounded-[2rem] overflow-hidden bg-gray-50 dark:bg-gray-900 mb-8 flex items-center justify-center">
+                    <img id="main-image" src="@Model.Product.ImageUrl" alt="@Model.Product.Name" class="w-full h-full object-cover" />
+                </div>
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="aspect-square rounded-2xl border-2 border-primary overflow-hidden cursor-pointer">
+                        <img src="@Model.Product.ImageUrl" class="w-full h-full object-cover opacity-100" />
+                    </div>
+                    @for (int i = 0; i < 3; i++)
                     {
-                        <button class="variant-btn border-2 border-gray-200 dark:border-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:border-primary transition"
-                                data-id="@v.Id" data-price="@v.Price" data-stock="@v.Stock" data-warranty="@v.Warranty">
-                            @v.Color - @v.Size
-                        </button>
+                        <div class="aspect-square rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden cursor-pointer opacity-40 hover:opacity-100 transition">
+                            <img src="@Model.Product.ImageUrl" class="w-full h-full object-cover" />
+                        </div>
                     }
                 </div>
             </div>
+        </div>
 
-            <!-- Price & Buy -->
-            <div class="flex items-center justify-between gap-6 p-6 border-t dark:border-gray-800">
-                <div>
-                    <p class="text-sm opacity-60 mb-1">قیمت نهایی</p>
-                    <p class="text-4xl font-black text-primary" id="display-price">---</p>
+        <!-- Info -->
+        <div class="w-full lg:w-1/2">
+            <div class="mb-10">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-xs font-black">@Model.Product.Category.Name</span>
+                    <div class="flex items-center gap-1">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="@(i < Math.Floor(Model.Product.AverageRating) ? "#fbbf24" : "none")" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        }
+                        <span class="text-xs font-bold mr-2 opacity-40">(@Model.Product.Reviews.Count @(isEn ? "reviews" : "نظر"))</span>
+                    </div>
                 </div>
-                <div class="flex-1 max-w-xs">
-                    <button id="add-to-cart-btn" disabled class="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition disabled:opacity-50 disabled:grayscale">
-                        افزودن به سبد خرید
+                <h1 class="text-5xl font-black leading-tight tracking-tighter mb-6">@Model.Product.Name</h1>
+                <p class="text-xl opacity-60 leading-relaxed font-medium">@Model.Product.Description</p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] border border-gray-100 dark:border-gray-700 p-10 shadow-xl shadow-blue-900/5 mb-10">
+                <h3 class="font-black text-lg mb-8 flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                    @(isEn ? "Select Configuration" : "انتخاب پیکربندی محصول")
+                </h3>
+
+                <div class="grid grid-cols-2 gap-4 mb-10">
+                    @foreach (var v in Model.Product.Variants)
+                    {
+                        <div class="variant-card p-6 rounded-2xl border-2 border-gray-50 dark:border-gray-700 cursor-pointer hover:border-primary/20 transition relative group" onclick="selectVariant(@v.Id, @v.Price)">
+                            <div class="font-black text-sm mb-1 group-hover:text-primary transition">@v.Color - @v.Size</div>
+                            <div class="text-[10px] font-bold opacity-40">@v.Warranty</div>
+                            <input type="radio" name="variant" value="@v.Id" class="absolute top-4 left-4 accent-primary" />
+                        </div>
+                    }
+                </div>
+
+                <div class="flex items-center justify-between pt-10 border-t border-gray-50 dark:border-gray-700/50">
+                    <div>
+                        <div class="text-[10px] font-black opacity-40 mb-1 uppercase tracking-widest">@(isEn ? "FINAL PRICE" : "قیمت نهایی")</div>
+                        <div class="text-4xl font-black tracking-tighter text-primary">
+                            <span id="display-price">@Model.Product.Variants.FirstOrDefault()?.Price.ToString("N0")</span>
+                            <span class="text-sm font-bold opacity-50 mr-1">@(isEn ? "Toman" : "تومان")</span>
+                        </div>
+                    </div>
+                    <button id="add-to-cart-btn" class="btn-modern btn-primary px-10 py-5 text-lg shadow-2xl">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                        @(isEn ? "Add to Cart" : "افزودن به سبد")
                     </button>
                 </div>
             </div>
-            <p class="text-xs text-center mt-4 text-gray-400" id="stock-info"></p>
+
+            <div class="flex items-center gap-6 text-xs font-bold opacity-40 px-6">
+                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> @(isEn ? "Secure Purchase" : "تضمین امنیت خرید")</div>
+                <div class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> @(isEn ? "Home Delivery" : "تحویل درب منزل")</div>
+            </div>
         </div>
     </div>
 
-    <!-- Reviews Section -->
-    <div class="mt-16">
-        <h2 class="text-3xl font-extrabold mb-12">نظرات و بررسی‌ها</h2>
-        <div class="grid lg:grid-cols-3 gap-12">
-            <!-- Summary -->
-            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border dark:border-gray-700 h-fit">
+    <!-- Reviews -->
+    <section class="mt-32">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-4xl font-black tracking-tight mb-2">@(isEn ? "Reviews & Feedback" : "نظرات و بررسی‌ها")</h2>
+                <p class="opacity-50 font-medium">@(isEn ? "Customer experiences for this product" : "تجربه خریداران این محصول")</p>
+            </div>
+            <button class="btn-modern btn-secondary">@(isEn ? "Write a Review" : "ثبت نظر جدید")</button>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2 space-y-6">
+                @foreach (var review in Model.Product.Reviews)
+                {
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-700 shadow-sm">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center font-bold text-primary">@review.User.FullName[0]</div>
+                                <div>
+                                    <div class="font-black">@review.User.FullName</div>
+                                    <div class="text-[10px] opacity-40">@(isEn ? "2 days ago" : "۲ روز پیش")</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-1">
+                                @for(int i=0; i<5; i++) {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="@(i < review.Rating ? "#fbbf24" : "none")" stroke="#fbbf24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                }
+                            </div>
+                        </div>
+                        <p class="font-medium leading-relaxed opacity-70">@review.Comment</p>
+                        @if(review.IsVerifiedPurchase) {
+                            <div class="mt-6 inline-flex items-center gap-2 text-[10px] font-black text-green-600 bg-green-50 dark:bg-green-900/20 px-3 py-1 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> @(isEn ? "Verified Buyer" : "خریدار تایید شده")
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-[2.5rem] p-10 h-fit">
                 <div class="text-center mb-8">
-                    <div class="text-6xl font-black text-primary">@Model.Product.AverageRating.ToString("0.0")</div>
-                    <div class="text-gray-400 mt-2 text-sm">میانگین امتیاز از @Model.Product.Reviews.Count نظر</div>
+                    <div class="text-6xl font-black text-primary mb-2">@Model.Product.AverageRating.ToString("0.0")</div>
+                    <div class="text-xs font-bold opacity-40">@(isEn ? "Average Rating" : "میانگین امتیازات")</div>
                 </div>
-                <div class="space-y-3">
-                    @for(int i=5; i>=1; i--)
+                <div class="space-y-4">
+                    @for (int i = 5; i >= 1; i--)
                     {
                         var count = Model.Product.Reviews.Count(r => r.Rating == i);
                         var percent = Model.Product.Reviews.Any() ? (count * 100 / Model.Product.Reviews.Count) : 0;
-                        <div class="flex items-center gap-3">
-                            <span class="text-xs w-4">@i</span>
-                            <div class="flex-1 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                                <div class="h-full bg-yellow-400" style="width: @percent%"></div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs font-bold w-4 opacity-40">@i</span>
+                            <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary" style="width: @percent%"></div>
                             </div>
-                            <span class="text-[10px] w-8 text-gray-400">@percent%</span>
+                            <span class="text-[10px] font-bold w-8 opacity-40">@percent%</span>
                         </div>
                     }
                 </div>
             </div>
-
-            <!-- List -->
-            <div class="lg:col-span-2 space-y-6">
-                @foreach(var review in Model.Product.Reviews.OrderByDescending(r => r.CreatedAt))
-                {
-                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border dark:border-gray-700">
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="font-bold flex items-center gap-2">
-                                @review.User.FullName
-                                @if(review.IsVerifiedPurchase)
-                                {
-                                    <span class="bg-emerald-50 text-emerald-600 text-[10px] px-2 py-0.5 rounded-full border border-emerald-100 font-medium">خریدار این محصول</span>
-                                }
-                            </div>
-                            <div class="text-yellow-500 text-xs">@string.Concat(Enumerable.Repeat("★", review.Rating))</div>
-                        </div>
-                        <p class="text-sm leading-loose opacity-80">@review.Comment</p>
-                        <div class="mt-4 text-[10px] text-gray-400">@review.CreatedAt.ToShortDateString()</div>
-                    </div>
-                }
-            </div>
         </div>
-    </div>
+    </section>
 }
 
-<script>
-    let selectedVariantId = null;
-    const variantBtns = document.querySelectorAll('.variant-btn');
-    const priceDisplay = document.getElementById('display-price');
-    const stockInfo = document.getElementById('stock-info');
-    const buyBtn = document.getElementById('add-to-cart-btn');
+@section Scripts {
+    <script>
+        let selectedVariantId = 0;
+        let selectedPrice = 0;
 
-    variantBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            variantBtns.forEach(b => b.classList.remove('border-primary', 'bg-primary/5'));
-            btn.classList.add('border-primary', 'bg-primary/5');
+        function selectVariant(id, price) {
+            selectedVariantId = id;
+            selectedPrice = price;
+            document.getElementById('display-price').innerText = new Intl.NumberFormat().format(price);
+            document.querySelectorAll('.variant-card').forEach(c => c.classList.remove('border-primary', 'bg-primary/5'));
+            event.currentTarget.classList.add('border-primary', 'bg-primary/5');
+            event.currentTarget.querySelector('input').checked = true;
+        }
 
-            selectedVariantId = btn.dataset.id;
-            const price = parseInt(btn.dataset.price).toLocaleString();
-            priceDisplay.innerText = price + ' تومان';
-            stockInfo.innerText = btn.dataset.stock + ' عدد در انبار موجود است - ' + btn.dataset.warranty;
-            buyBtn.disabled = parseInt(btn.dataset.stock) <= 0;
+        function addToCart() {
+            if (selectedVariantId === 0) {
+                alert('لطفا یک تنوع انتخاب کنید');
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existing = cart.find(i => i.variantId === selectedVariantId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    productId: @Model.Product.Id,
+                    variantId: selectedVariantId,
+                    name: '@Model.Product.Name',
+                    price: selectedPrice,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            if (typeof updateCartBadge === 'function') updateCartBadge();
+            alert('@(isEn ? "Added to cart" : "به سبد خرید اضافه شد")');
+        }
+
+        // Select first variant by default
+        document.addEventListener('DOMContentLoaded', () => {
+            const first = document.querySelector('.variant-card');
+            if(first) first.click();
+
+            document.getElementById('add-to-cart-btn').addEventListener('click', addToCart);
         });
-    });
-
-    buyBtn.addEventListener('click', () => {
-        if(!selectedVariantId) return;
-        const cartItem = {
-            productId: @Model.Product?.Id,
-            variantId: parseInt(selectedVariantId),
-            name: '@Model.Product?.Name',
-            price: parseInt(document.querySelector('.variant-btn.border-primary').dataset.price),
-            quantity: 1
-        };
-        addToCart(cartItem);
-    });
-
-    function addToCart(item) {
-        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        const existing = cart.find(i => i.variantId === item.variantId);
-        if(existing) existing.quantity++;
-        else cart.push(item);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        alert('به سبد خرید اضافه شد');
-        window.location.href = '/Cart';
-    }
-
-    async function addToWishlist(pid) {
-        // Logic for calling API
-        alert('به لیست علاقه‌مندی‌ها اضافه شد');
-    }
-</script>
+    </script>
+}

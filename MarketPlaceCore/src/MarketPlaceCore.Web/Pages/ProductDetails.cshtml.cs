@@ -17,7 +17,7 @@ public class ProductDetailsModel : PageModel
 
     public async Task OnGetAsync(int id)
     {
-        var products = await _unitOfWork.Products.FindWithIncludes(p => p.Id == id, p => p.Variants);
+        var products = await _unitOfWork.Products.FindWithIncludes(p => p.Id == id, p => p.Variants, p => p.Category);
         Product = products.FirstOrDefault();
 
         if (Product != null)

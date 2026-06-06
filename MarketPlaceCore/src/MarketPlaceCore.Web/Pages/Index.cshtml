@@ -1,31 +1,82 @@
 @page
 @model MarketPlaceCore.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "صفحه اصلی";
+    var isEn = Model.HttpContext.Request.Query["lang"] == "en";
+    ViewData["Title"] = isEn ? "Home" : "صفحه اصلی";
 }
-<section class="hero">
-    <span class="badge">فروش ویژه</span>
-    <h1 class="text-5xl font-extrabold mb-4">تجربه خرید هوشمند</h1>
-    <p class="text-lg mb-6">بزرگترین هسته فروشگاهی با تکنولوژی مدرن دات نت</p>
-    <a href="/Products" class="btn" style="background: white; color: var(--primary);">مشاهده محصولات</a>
-</section>
 
-<div class="grid md:grid-cols-4 gap-4 mb-16">
-    <div class="card">ارسال سریع</div>
-    <div class="card">ضمانت اصالت</div>
-    <div class="card">پشتیبانی ۲۴ ساعته</div>
-    <div class="card">پرداخت در محل</div>
-</div>
-
-<h2 class="text-3xl font-bold mb-6">دسته بندی های محبوب</h2>
-<div class="grid lg:grid-cols-6 gap-6">
-    @foreach(var cat in Model.Categories)
-    {
-        <a href="/Products?categoryId=@cat.Id" class="card" style="text-decoration: none; color: inherit;">
-            <div class="text-4xl mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"></path></svg>
+<div class="relative rounded-[3rem] overflow-hidden bg-primary mb-16 h-[500px] flex items-center">
+    <div class="absolute inset-0 opacity-20 bg-[url('/images/digital.jpg')] bg-cover bg-center"></div>
+    <div class="container relative z-10 text-white">
+        <div class="max-w-2xl">
+            <span class="bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6 inline-block">@(isEn ? "WEEKLY SPECIAL OFFER" : "پیشنهاد ویژه هفته")</span>
+            <h1 class="text-6xl font-black mb-6 leading-tight tracking-tighter">@(isEn ? "The Future of Shopping" : "آینده خرید آنلاین") <br/> @(isEn ? "is Here" : "اینجاست")</h1>
+            <p class="text-xl opacity-80 mb-10 font-medium leading-relaxed">@(isEn ? "The largest and fastest e-commerce core built with the latest .NET technologies." : "بزرگترین و سریع‌ترین هسته فروشگاهی با استفاده از جدیدترین تکنولوژی‌های مایکروسافت دات‌نت.")</p>
+            <div class="flex gap-4">
+                <a href="/Products?lang=@(isEn ? "en" : "fa")" class="btn-modern bg-white text-primary px-10 py-5 text-lg">@(isEn ? "Shop Now" : "همین حالا بخرید")</a>
+                <a href="#categories" class="btn-modern bg-primary-soft border border-white/30 text-white px-10 py-5 text-lg backdrop-blur-md">@(isEn ? "View Categories" : "مشاهده دسته‌بندی‌ها")</a>
             </div>
-            <div class="font-bold">@cat.Name</div>
-        </a>
-    }
+        </div>
+    </div>
 </div>
+
+<div class="grid md:grid-cols-4 gap-6 mb-20">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-700 flex items-center gap-4">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <div>
+            <h4 class="font-bold">@(isEn ? "Fast Shipping" : "ارسال سریع")</h4>
+            <p class="text-xs opacity-50">@(isEn ? "Delivery in no time" : "تحویل در کمترین زمان")</p>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-700 flex items-center gap-4">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center text-green-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+            <h4 class="font-bold">@(isEn ? "Originality" : "ضمانت اصالت")</h4>
+            <p class="text-xs opacity-50">@(isEn ? "100% Original Products" : "۱۰۰٪ کالای اصل")</p>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-700 flex items-center gap-4">
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center text-purple-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 1 1-7.6-10.6 8.38 8.38 0 0 1 3.8.9"/><path d="M22 4l-11 11-5-5"/></svg>
+        </div>
+        <div>
+            <h4 class="font-bold">@(isEn ? "24/7 Support" : "پشتیبانی ۲۴/۷")</h4>
+            <p class="text-xs opacity-50">@(isEn ? "Always by your side" : "همیشه در کنار شما")</p>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-700 flex items-center gap-4">
+        <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center text-orange-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+            <h4 class="font-bold">@(isEn ? "Secure Payment" : "پرداخت امن")</h4>
+            <p class="text-xs opacity-50">@(isEn ? "Trusted payment gateways" : "درگاه‌های بانکی معتبر")</p>
+        </div>
+    </div>
+</div>
+
+<section id="categories" class="mb-20">
+    <div class="flex justify-between items-end mb-10">
+        <div>
+            <h2 class="text-4xl font-black tracking-tight mb-2">@(isEn ? "Popular Categories" : "دسته‌بندی‌های محبوب")</h2>
+            <p class="opacity-50 font-medium">@(isEn ? "Quick access to our wide range of products" : "دسترسی سریع به طیف گسترده محصولات ما")</p>
+        </div>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-8">
+        @foreach(var cat in Model.Categories)
+        {
+            <a href="/Products?categoryId=@cat.Id" class="group relative h-80 rounded-[2.5rem] overflow-hidden block">
+                <img src="@cat.ImageUrl" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110" alt="@cat.Name" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-8 right-8 left-8">
+                    <h3 class="text-2xl font-bold text-white mb-2">@cat.Name</h3>
+                    <div class="w-10 h-1 bg-white rounded-full transition-all duration-300 group-hover:w-20"></div>
+                </div>
+            </a>
+        }
+    </div>
+</section>

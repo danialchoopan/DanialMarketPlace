@@ -1,27 +1,39 @@
 @page
 @model MarketPlaceCore.Web.Pages.ProductsModel
 @{
-    ViewData["Title"] = "فروشگاه محصولات";
+    var isEn = Model.HttpContext.Request.Query["lang"] == "en";
+    ViewData["Title"] = isEn ? "Product Shop" : "فروشگاه محصولات";
 }
 
-<div class="flex flex-col md:flex-row gap-8">
+<div class="flex flex-col md:flex-row gap-10">
     <!-- Sidebar Filters -->
-    <aside class="w-full md:w-64 shrink-0">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl border dark:border-gray-700 p-6 sticky top-24 shadow-sm">
-            <h3 class="font-bold text-lg mb-6 flex items-center gap-2">
-                فیلتر محصولات
-            </h3>
+    <aside class="w-full md:w-72 shrink-0">
+        <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] border border-gray-100 dark:border-gray-700 p-8 sticky top-28 shadow-xl shadow-blue-900/5">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="2" y1="14" x2="6" y2="14"/><line x1="10" y1="8" x2="14" y2="8"/><line x1="18" y1="16" x2="22" y2="16"/></svg>
+                </div>
+                <h3 class="font-black text-xl tracking-tight">@(isEn ? "Smart Filter" : "فیلتر هوشمند")</h3>
+            </div>
 
-            <form method="get" class="space-y-6">
+            <form method="get" class="space-y-8">
+                <input type="hidden" name="lang" value="@(isEn ? "en" : "fa")" />
                 <div>
-                    <label class="block text-xs font-bold mb-2 uppercase opacity-50">جستجو</label>
-                    <input type="text" name="search" value="@ViewData["CurrentSearch"]" class="w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 rounded-xl p-3 text-sm outline-none focus:border-primary transition" placeholder="نام محصول...">
+                    <label class="block text-[10px] font-black mb-3 uppercase tracking-widest opacity-40">@(isEn ? "QUICK SEARCH" : "جستجوی سریع")</label>
+                    <div class="relative">
+                        <input type="text" name="search" value="@ViewData["CurrentSearch"]"
+                               class="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-2xl py-4 @(isEn ? "pr-12 pl-4" : "pl-12 pr-4") text-sm font-bold focus:ring-2 ring-primary/20 transition outline-none"
+                               placeholder="@(isEn ? "What do you need?" : "چی لازم داری؟")">
+                        <div class="absolute @(isEn ? "right-4" : "left-4") top-1/2 -translate-y-1/2 opacity-30">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </div>
+                    </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold mb-2 uppercase opacity-50">دسته‌بندی</label>
-                    <select name="categoryId" class="w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 rounded-xl p-3 text-sm outline-none cursor-pointer">
-                        <option value="">همه دسته‌ها</option>
+                    <label class="block text-[10px] font-black mb-3 uppercase tracking-widest opacity-40">@(isEn ? "PRODUCT CATEGORY" : "دسته‌بندی محصولات")</label>
+                    <select name="categoryId" class="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 ring-primary/20 transition outline-none cursor-pointer appearance-none">
+                        <option value="">@(isEn ? "All Products" : "همه کالاهای موجود")</option>
                         @foreach (var cat in Model.Categories)
                         {
                             <option value="@cat.Id">@cat.Name</option>
@@ -29,48 +41,59 @@
                     </select>
                 </div>
 
-                <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-bold shadow-md hover:bg-blue-700 transition">اعمال فیلتر</button>
-                <a href="/Products" class="block text-center text-xs text-primary hover:underline">حذف همه فیلترها</a>
+                <div class="pt-4">
+                    <button type="submit" class="w-full btn-primary px-4 py-4 justify-center">@(isEn ? "Apply Changes" : "اعمال تغییرات")</button>
+                    <a href="/Products?lang=@(isEn ? "en" : "fa")" class="block text-center text-xs font-bold text-primary mt-6 hover:opacity-70 transition">@(isEn ? "Reset Filters" : "تنظیم مجدد فیلترها")</a>
+                </div>
             </form>
         </div>
     </aside>
 
     <!-- Product Grid -->
     <div class="flex-1">
-        <div class="mb-6 flex justify-between items-center bg-white dark:bg-gray-800 p-4 rounded-2xl border dark:border-gray-700 shadow-sm">
-            <div class="text-sm">
-                نمایش <span class="font-bold">@Model.Products.Count()</span> محصول
+        <div class="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h1 class="text-4xl font-black tracking-tight mb-1">@(isEn ? "Store Showcase" : "ویترین فروشگاه")</h1>
+                <p class="text-sm opacity-50 font-bold">@(isEn ? "Showing" : "نمایش") <span class="text-primary">@Model.Products.Count()</span> @(isEn ? "items at best market prices" : "کالا با بهترین قیمت بازار")</p>
+            </div>
+            <div class="flex gap-2">
+                <button class="p-3 bg-white dark:bg-gray-800 rounded-xl border-none shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></button>
+                <button class="p-3 bg-gray-100 dark:bg-gray-700 rounded-xl border-none opacity-40"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach (var p in Model.Products)
             {
                 var minPrice = p.Variants.Any() ? p.Variants.Min(v => v.Price) : 0;
                 var totalStock = p.Variants.Sum(v => v.Stock);
 
-                <div class="bg-white dark:bg-gray-800 rounded-2xl border dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 card group">
-                    <div class="h-56 bg-gray-100 dark:bg-gray-700 relative overflow-hidden flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <div class="card-modern group overflow-hidden bg-white dark:bg-gray-800 rounded-[2rem] border border-gray-100 dark:border-gray-700">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="@p.ImageUrl" alt="@p.Name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                            <a href="/ProductDetails/@p.Id?lang=@(isEn ? "en" : "fa")" class="w-full btn-modern btn-primary justify-center py-3 text-sm">
+                                @(isEn ? "View Details" : "مشاهده جزئیات")
+                            </a>
+                        </div>
                         @if (totalStock <= 0)
                         {
-                            <div class="absolute inset-0 bg-black/10 flex items-center justify-center">
-                                <span class="bg-white text-black px-4 py-1 rounded-full text-xs font-bold">ناموجود</span>
+                            <div class="absolute top-4 @(isEn ? "right-4" : "left-4")">
+                                <span class="bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full">@(isEn ? "OUT OF STOCK" : "ناموجود")</span>
                             </div>
                         }
                     </div>
-                    <div class="p-5">
-                        <a href="/ProductDetails/@p.Id" class="block">
-                            <h4 class="font-bold text-lg mb-2 group-hover:text-primary transition line-clamp-1">@p.Name</h4>
-                        </a>
-                        <p class="text-xs opacity-60 mb-4 line-clamp-2 h-8">@p.Description</p>
-                        <div class="flex justify-between items-center mt-auto">
+                    <div class="p-6">
+                        <span class="text-[10px] font-black text-primary/60 uppercase tracking-widest mb-2 block">@p.Category.Name</span>
+                        <h3 class="text-lg font-black mb-4 line-clamp-1 group-hover:text-primary transition-colors">@p.Name</h3>
+                        <div class="flex items-center justify-between">
                             <div class="flex flex-col">
-                                <span class="text-primary font-bold text-lg">@minPrice.ToString("N0") <span class="text-[10px] font-normal">تومان</span></span>
+                                <span class="text-[10px] font-bold opacity-40">@(isEn ? "Starting from" : "شروع قیمت از")</span>
+                                <span class="text-xl font-black text-primary">@minPrice.ToString("N0") <small class="text-xs font-bold opacity-60">@(isEn ? "Toman" : "تومان")</small></span>
                             </div>
-                            <a href="/ProductDetails/@p.Id" class="bg-gray-100 dark:bg-gray-700 hover:bg-primary hover:text-white p-2 rounded-xl transition shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                            </a>
+                            <div class="w-10 h-10 rounded-2xl bg-primary/5 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </div>
                         </div>
                     </div>
                 </div>
