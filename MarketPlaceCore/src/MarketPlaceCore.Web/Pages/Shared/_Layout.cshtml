@@ -29,25 +29,36 @@
 </head>
 <body class="light bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
     <header class="glass sticky top-0 z-50">
-        <div class="container py-4 flex justify-between items-center">
-            <div class="flex items-center gap-10">
+        <div class="container py-4 flex justify-between items-center gap-8">
+            <div class="flex items-center gap-8 shrink-0">
                 <a href="/?lang=@lang" class="text-2xl font-black text-primary tracking-tighter" style="text-decoration:none">MarketPlaceCore</a>
-                <nav class="hidden md:flex gap-8 text-sm font-bold opacity-70">
+                <nav class="hidden xl:flex gap-6 text-sm font-bold opacity-70">
                     <a href="/?lang=@lang" class="hover:text-primary transition" style="text-decoration:none">@(isEn ? "Home" : "صفحه اصلی")</a>
                     <a href="/Products?lang=@lang" class="hover:text-primary transition" style="text-decoration:none">@(isEn ? "Shop" : "فروشگاه")</a>
                     <a href="/Admin?lang=@lang" class="hover:text-primary transition" style="text-decoration:none">@(isEn ? "Admin" : "پنل مدیریت")</a>
                 </nav>
             </div>
-            <div class="flex items-center gap-4">
-                <a href="?lang=@(isEn ? "fa" : "en")" class="p-2 rounded-xl bg-primary/10 text-primary font-bold text-xs uppercase">@(isEn ? "FA" : "EN")</a>
+
+            <!-- Smart Search Bar -->
+            <div class="hidden lg:flex flex-1 max-w-xl">
+                <div class="relative w-full">
+                    <input type="text" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-2xl py-3 @(isEn ? "pl-12 pr-4" : "pr-12 pl-4") text-sm font-medium focus:ring-2 ring-primary/20 outline-none transition" placeholder="@(isEn ? "Search for products, categories..." : "جستجو در میان کالاها، دسته‌ها...")">
+                    <div class="absolute @(isEn ? "left-4" : "right-4") top-1/2 -translate-y-1/2 opacity-30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 shrink-0">
+                <a href="?lang=@(isEn ? "fa" : "en")" class="w-10 h-10 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800 text-xs font-black hover:bg-primary hover:text-white transition">@(isEn ? "FA" : "EN")</a>
                 <button id="theme-toggle" class="p-3 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 transition border-none cursor-pointer">
-                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
                 </button>
                 <a href="/Cart?lang=@lang" class="relative p-3 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 transition text-inherit" style="text-decoration:none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
                     <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full hidden font-bold">0</span>
                 </a>
-                <a href="/Login?lang=@lang" class="btn-modern btn-primary text-sm">@(isEn ? "Login" : "ورود به حساب")</a>
+                <a href="/Login?lang=@lang" class="btn-modern btn-primary text-sm px-6 py-3">@(isEn ? "Login" : "ورود به حساب")</a>
             </div>
         </div>
     </header>

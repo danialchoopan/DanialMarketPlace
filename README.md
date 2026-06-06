@@ -35,7 +35,7 @@
 ```bash
 docker-compose up --build
 ```
-برنامه در آدرس `http://localhost:8080` در دسترس خواهد بود. پایگاه داده به طور خودکار آماده‌سازی شده و با داده‌های نمونه غنی و تصاویر با کیفیت از Unsplash پر می‌شود.
+برنامه در آدرس `http://localhost:8080` در دسترس خواهد بود. پایگاه داده به طور خودکار با استفاده از **SQLite** آماده‌سازی شده و با داده‌های نمونه غنی، متغیرهای محصول (رنگ و سایز)، و تصاویر با کیفیت از Unsplash پر می‌شود.
 
 ### اجرای محلی
 ۱. اطمینان حاصل کنید که .NET 8.0 SDK نصب شده است.
@@ -87,7 +87,7 @@ To get the project up and running quickly with Docker, execute this command in t
 ```bash
 docker-compose up --build
 ```
-The application will be accessible at `http://localhost:8080`. The database is automatically provisioned and seeded with rich sample data and high-quality images from Unsplash.
+The application will be accessible at `http://localhost:8080`. The database is automatically provisioned using **SQLite** and seeded with rich sample data, product variants (color/size), and high-quality images from Unsplash.
 
 ### Local Execution
 1. Ensure you have the .NET 8.0 SDK installed.

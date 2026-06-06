@@ -21,13 +21,7 @@ public class ProductsModel : PageModel
     {
         Categories = await _unitOfWork.Categories.GetAllAsync();
 
-        var products = await _unitOfWork.Products.GetAllAsync();
-        // Include variants for UI calculations
-        foreach(var p in products)
-        {
-            var pVariants = await _unitOfWork.ProductVariants.Find(v => v.ProductId == p.Id);
-            p.Variants = pVariants.ToList();
-        }
+        var products = await _unitOfWork.Products.FindWithIncludes(p => true, p => p.Variants, p => p.Category);
 
         if (!string.IsNullOrEmpty(search))
         {
