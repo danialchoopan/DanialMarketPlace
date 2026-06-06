@@ -16,13 +16,10 @@
 - **خریداران تایید شده:** سیستم نظرات برای جلب اعتماد، با نمایش بازخوردهای خریداران واقعی.
 - **احراز هویت:** ورود امن با استفاده از JWT و شبیه‌سازی ورود با رمز یکبار مصرف (OTP).
 
-## تصاویر برنامه (نسخه فارسی)
+## تصاویر برنامه
 
 ### صفحه اصلی
 ![صفحه اصلی](docs/images/home_fa.png)
-
-### لیست محصولات
-![لیست محصولات](docs/images/products_fa.png)
 
 ### جزئیات محصول
 ![جزئیات محصول](docs/images/details_fa.png)
@@ -73,9 +70,6 @@ A comprehensive and advanced e-commerce system built with **ASP.NET Core 8.0** f
 ### Home Page
 ![Home Page](docs/images/home_en.png)
 
-### Product List
-![Product List](docs/images/products_en.png)
-
 ### Product Details
 ![Product Details](docs/images/details_en.png)
 
@@ -101,4 +95,3 @@ The application will be accessible at `http://localhost:8080`. The database is a
 - [Android Integration Guide](MarketPlaceCore/androidreadmeapi.md)
 
 ---
-All rights reserved &copy; 2024
