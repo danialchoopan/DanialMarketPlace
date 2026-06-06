@@ -11,9 +11,9 @@ public static class DatabaseSeeder
 
         var categories = new List<Category>
         {
-            new Category { Name = "کالای دیجیتال", ImageUrl = "/images/digital.jpg" },
-            new Category { Name = "مد و پوشاک", ImageUrl = "/images/fashion.jpg" },
-            new Category { Name = "خانه و آشپزخانه", ImageUrl = "/images/home.jpg" }
+            new Category { Name = "کالای دیجیتال", ImageUrl = "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070" },
+            new Category { Name = "مد و پوشاک", ImageUrl = "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2071" },
+            new Category { Name = "خانه و آشپزخانه", ImageUrl = "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070" }
         };
         context.Categories.AddRange(categories);
         context.SaveChanges();
@@ -23,30 +23,30 @@ public static class DatabaseSeeder
             new Product
             {
                 Name = "گوشی موبایل آیفون 15 Pro",
-                Description = "تیتانیوم، حافظه 256، دوربین 48 مگاپیکسل فوق حرفه ای",
+                Description = "طراحی تیتانیوم گرید هوافضا، تراشه A17 Pro، و پیشرفته‌ترین سیستم دوربین در آیفون. تجربه نهایی قدرت و زیبایی در دستان شما.",
                 CategoryId = categories[0].Id,
-                ImageUrl = "/images/iphone.jpg"
+                ImageUrl = "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=2070"
             },
             new Product
             {
                 Name = "ساعت هوشمند اپل سری 9",
-                Description = "ساعت هوشمند با قابلیت‌های ورزشی پیشرفته و پایش سلامتی",
+                Description = "ساعت هوشمند با قابلیت‌های ورزشی پیشرفته، پایش سلامتی دقیق و نمایشگر همیشه روشن درخشان. همراه هوشمند شما در تمام لحظات زندگی.",
                 CategoryId = categories[0].Id,
-                ImageUrl = "/images/watch.jpg"
+                ImageUrl = "https://images.unsplash.com/photo-1434493907317-a46b5bc78344?q=80&w=2070"
             },
             new Product
             {
                 Name = "کفش ورزشی نایکی مدل Air Max",
-                Description = "کفش ورزشی راحت و سبک مناسب برای دویدن و استفاده روزمره",
+                Description = "کفش ورزشی راحت و سبک با تکنولوژی کپسول هوا برای نهایت ضربه‌گیری. طراحی مدرن و جسورانه برای استفاده روزمره و تمرینات ورزشی.",
                 CategoryId = categories[1].Id,
-                ImageUrl = "/images/shoes.jpg"
+                ImageUrl = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070"
             },
             new Product
             {
                 Name = "هدفون بی سیم سونی مدل WH-1000XM5",
-                Description = "هدفون با قابلیت حذف نویز محیطی و کیفیت صدای استثنایی",
+                Description = "هدفون با پیشرفته‌ترین تکنولوژی حذف نویز فعال در جهان و کیفیت صدای بی‌نظیر High-Res. عمر باتری ۳۰ ساعته برای لذت بردن طولانی مدت.",
                 CategoryId = categories[0].Id,
-                ImageUrl = "/images/headphone.jpg"
+                ImageUrl = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=2070"
             }
         };
         context.Products.AddRange(products);

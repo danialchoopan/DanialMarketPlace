@@ -7,43 +7,57 @@
 
 <div class="flex flex-col md:flex-row gap-10">
     <!-- Sidebar Filters -->
-    <aside class="w-full md:w-72 shrink-0">
-        <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] border border-gray-100 dark:border-gray-700 p-8 sticky top-28 shadow-xl shadow-blue-900/5">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-8 h-8 bg-primary rounded-xl flex items-center justify-center text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="2" y1="14" x2="6" y2="14"/><line x1="10" y1="8" x2="14" y2="8"/><line x1="18" y1="16" x2="22" y2="16"/></svg>
+    <aside class="w-full md:w-80 shrink-0">
+        <div class="bg-white dark:bg-gray-800 rounded-[3rem] border border-gray-100 dark:border-gray-700 p-10 sticky top-28 shadow-2xl shadow-blue-900/5">
+            <div class="flex items-center justify-between mb-10">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="2" y1="14" x2="6" y2="14"/><line x1="10" y1="8" x2="14" y2="8"/><line x1="18" y1="16" x2="22" y2="16"/></svg>
+                    </div>
+                    <h3 class="font-black text-2xl tracking-tight">@(isEn ? "Filters" : "فیلترها")</h3>
                 </div>
-                <h3 class="font-black text-xl tracking-tight">@(isEn ? "Smart Filter" : "فیلتر هوشمند")</h3>
+                <span class="text-[10px] font-black bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-lg opacity-40">SMART</span>
             </div>
 
-            <form method="get" class="space-y-8">
+            <form method="get" class="space-y-10">
                 <input type="hidden" name="lang" value="@(isEn ? "en" : "fa")" />
+
                 <div>
-                    <label class="block text-[10px] font-black mb-3 uppercase tracking-widest opacity-40">@(isEn ? "QUICK SEARCH" : "جستجوی سریع")</label>
-                    <div class="relative">
+                    <label class="block text-[11px] font-black mb-4 uppercase tracking-widest text-primary/60">@(isEn ? "Quick Search" : "جستجوی سریع")</label>
+                    <div class="relative group">
                         <input type="text" name="search" value="@ViewData["CurrentSearch"]"
-                               class="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-2xl py-4 @(isEn ? "pr-12 pl-4" : "pl-12 pr-4") text-sm font-bold focus:ring-2 ring-primary/20 transition outline-none"
-                               placeholder="@(isEn ? "What do you need?" : "چی لازم داری؟")">
-                        <div class="absolute @(isEn ? "right-4" : "left-4") top-1/2 -translate-y-1/2 opacity-30">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                               class="w-full bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent rounded-[1.5rem] py-5 @(isEn ? "pr-14 pl-6" : "pl-14 pr-6") text-sm font-bold focus:border-primary/20 focus:bg-white transition-all outline-none"
+                               placeholder="@(isEn ? "Search products..." : "جستجوی کالا...")">
+                        <div class="absolute @(isEn ? "right-6" : "left-6") top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-100 group-focus-within:text-primary transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-black mb-3 uppercase tracking-widest opacity-40">@(isEn ? "PRODUCT CATEGORY" : "دسته‌بندی محصولات")</label>
-                    <select name="categoryId" class="w-full bg-gray-50 dark:bg-gray-900 border-none rounded-2xl py-4 px-4 text-sm font-bold focus:ring-2 ring-primary/20 transition outline-none cursor-pointer appearance-none">
-                        <option value="">@(isEn ? "All Products" : "همه کالاهای موجود")</option>
+                    <label class="block text-[11px] font-black mb-4 uppercase tracking-widest text-primary/60">@(isEn ? "Category" : "دسته‌بندی")</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent hover:border-primary/10 transition-all cursor-pointer group">
+                            <input type="radio" name="categoryId" value="" @(string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["categoryId"]) ? "checked" : "") class="w-5 h-5 accent-primary">
+                            <span class="text-sm font-bold opacity-60 group-hover:opacity-100">@(isEn ? "All Products" : "همه محصولات")</span>
+                        </label>
                         @foreach (var cat in Model.Categories)
                         {
-                            <option value="@cat.Id">@cat.Name</option>
+                            <label class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent hover:border-primary/10 transition-all cursor-pointer group">
+                                <input type="radio" name="categoryId" value="@cat.Id" @(ViewContext.HttpContext.Request.Query["categoryId"] == cat.Id.ToString() ? "checked" : "") class="w-5 h-5 accent-primary">
+                                <span class="text-sm font-bold opacity-60 group-hover:opacity-100">@cat.Name</span>
+                            </label>
                         }
-                    </select>
+                    </div>
                 </div>
 
-                <div class="pt-4">
-                    <button type="submit" class="w-full btn-primary px-4 py-4 justify-center">@(isEn ? "Apply Changes" : "اعمال تغییرات")</button>
-                    <a href="/Products?lang=@(isEn ? "en" : "fa")" class="block text-center text-xs font-bold text-primary mt-6 hover:opacity-70 transition">@(isEn ? "Reset Filters" : "تنظیم مجدد فیلترها")</a>
+                <div class="pt-6">
+                    <button type="submit" class="w-full btn-modern btn-primary py-5 text-base shadow-xl shadow-blue-600/20">
+                        @(isEn ? "Apply Filters" : "اعمال فیلترها")
+                    </button>
+                    <a href="/Products?lang=@(isEn ? "en" : "fa")" class="block text-center text-[11px] font-black uppercase tracking-widest text-primary/40 mt-8 hover:text-primary transition-all">
+                        @(isEn ? "Reset Everything" : "پاکسازی همه")
+                    </a>
                 </div>
             </form>
         </div>
@@ -62,38 +76,49 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             @foreach (var p in Model.Products)
             {
                 var minPrice = p.Variants.Any() ? p.Variants.Min(v => v.Price) : 0;
                 var totalStock = p.Variants.Sum(v => v.Stock);
 
-                <div class="card-modern group overflow-hidden bg-white dark:bg-gray-800 rounded-[2rem] border border-gray-100 dark:border-gray-700">
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="@p.ImageUrl" alt="@p.Name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                            <a href="/ProductDetails/@p.Id?lang=@(isEn ? "en" : "fa")" class="w-full btn-modern btn-primary justify-center py-3 text-sm">
-                                @(isEn ? "View Details" : "مشاهده جزئیات")
+                <div class="card-modern group bg-white dark:bg-gray-800 rounded-[2.5rem] border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-blue-900/10">
+                    <div class="relative h-72 m-3 rounded-[2rem] overflow-hidden">
+                        <img src="@p.ImageUrl" alt="@p.Name" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                            <a href="/ProductDetails/@p.Id?lang=@(isEn ? "en" : "fa")" class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-primary shadow-xl hover:scale-110 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                             </a>
                         </div>
+
                         @if (totalStock <= 0)
                         {
                             <div class="absolute top-4 @(isEn ? "right-4" : "left-4")">
-                                <span class="bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full">@(isEn ? "OUT OF STOCK" : "ناموجود")</span>
+                                <span class="bg-red-500 text-white text-[10px] font-black px-4 py-1.5 rounded-full shadow-lg shadow-red-500/30">@(isEn ? "OUT OF STOCK" : "ناموجود")</span>
                             </div>
                         }
                     </div>
-                    <div class="p-6">
-                        <span class="text-[10px] font-black text-primary/60 uppercase tracking-widest mb-2 block">@p.Category.Name</span>
-                        <h3 class="text-lg font-black mb-4 line-clamp-1 group-hover:text-primary transition-colors">@p.Name</h3>
-                        <div class="flex items-center justify-between">
+
+                    <div class="p-8 pt-4">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-2 block opacity-60">@p.Category.Name</span>
+                                <h3 class="text-xl font-black line-clamp-1 group-hover:text-primary transition-colors">@p.Name</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mt-8">
                             <div class="flex flex-col">
-                                <span class="text-[10px] font-bold opacity-40">@(isEn ? "Starting from" : "شروع قیمت از")</span>
-                                <span class="text-xl font-black text-primary">@minPrice.ToString("N0") <small class="text-xs font-bold opacity-60">@(isEn ? "Toman" : "تومان")</small></span>
+                                <span class="text-[10px] font-black opacity-30 uppercase tracking-widest">@(isEn ? "PRICE" : "قیمت")</span>
+                                <span class="text-2xl font-black text-primary tracking-tighter">
+                                    @minPrice.ToString("N0")
+                                    <small class="text-xs font-bold opacity-40">@(isEn ? "Toman" : "تومان")</small>
+                                </span>
                             </div>
-                            <div class="w-10 h-10 rounded-2xl bg-primary/5 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                            </div>
+                            <a href="/ProductDetails/@p.Id?lang=@(isEn ? "en" : "fa")" class="w-12 h-12 rounded-[1.25rem] bg-gray-50 dark:bg-gray-900 text-gray-400 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="@(isEn ? "" : "rotate-180")"><path d="m9 18 6-6-6-6"/></svg>
+                            </a>
                         </div>
                     </div>
                 </div>

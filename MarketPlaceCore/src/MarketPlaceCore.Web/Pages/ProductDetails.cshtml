@@ -45,34 +45,54 @@
                 <p class="text-xl opacity-60 leading-relaxed font-medium">@Model.Product.Description</p>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] border border-gray-100 dark:border-gray-700 p-10 shadow-xl shadow-blue-900/5 mb-10">
-                <h3 class="font-black text-lg mb-8 flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            <div class="bg-white dark:bg-gray-800 rounded-[3rem] border border-gray-100 dark:border-gray-700 p-12 shadow-2xl shadow-blue-900/5 mb-10">
+                <div class="mb-12">
+                    <h3 class="font-black text-xl mb-8 flex items-center gap-4">
+                        <span class="w-2 h-8 bg-primary rounded-full"></span>
+                        @(isEn ? "Technical Specifications" : "مشخصات فنی")
+                    </h3>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/40 rounded-2xl">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-widest">@(isEn ? "Brand" : "برند")</span>
+                            <span class="text-sm font-black">Apple</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/40 rounded-2xl">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-widest">@(isEn ? "Model" : "مدل")</span>
+                            <span class="text-sm font-black">@Model.Product.Name.Split(' ').Last()</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/40 rounded-2xl">
+                            <span class="text-xs font-bold opacity-40 uppercase tracking-widest">@(isEn ? "Availability" : "وضعیت")</span>
+                            <span class="text-sm font-black text-green-600">@(isEn ? "In Stock" : "موجود در انبار")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-black text-xl mb-8 flex items-center gap-4">
+                    <span class="w-2 h-8 bg-primary rounded-full"></span>
                     @(isEn ? "Select Configuration" : "انتخاب پیکربندی محصول")
                 </h3>
 
-                <div class="grid grid-cols-2 gap-4 mb-10">
+                <div class="grid grid-cols-2 gap-4 mb-12">
                     @foreach (var v in Model.Product.Variants)
                     {
-                        <div class="variant-card p-6 rounded-2xl border-2 border-gray-50 dark:border-gray-700 cursor-pointer hover:border-primary/20 transition relative group" onclick="selectVariant(@v.Id, @v.Price)">
-                            <div class="font-black text-sm mb-1 group-hover:text-primary transition">@v.Color - @v.Size</div>
-                            <div class="text-[10px] font-bold opacity-40">@v.Warranty</div>
-                            <input type="radio" name="variant" value="@v.Id" class="absolute top-4 left-4 accent-primary" />
+                        <div class="variant-card p-6 rounded-[1.5rem] border-2 border-gray-100 dark:border-gray-700 cursor-pointer hover:border-primary/30 transition-all relative group" onclick="selectVariant(@v.Id, @v.Price)">
+                            <div class="font-black text-sm mb-1 group-hover:text-primary transition-colors">@v.Color - @v.Size</div>
+                            <div class="text-[10px] font-bold opacity-40 uppercase tracking-tighter">@v.Warranty</div>
+                            <input type="radio" name="variant" value="@v.Id" class="absolute top-4 @(isEn ? "right-4" : "left-4") accent-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                     }
                 </div>
 
-                <div class="flex items-center justify-between pt-10 border-t border-gray-50 dark:border-gray-700/50">
+                <div class="flex items-center justify-between pt-10 border-t border-gray-100 dark:border-gray-700/50">
                     <div>
-                        <div class="text-[10px] font-black opacity-40 mb-1 uppercase tracking-widest">@(isEn ? "FINAL PRICE" : "قیمت نهایی")</div>
-                        <div class="text-4xl font-black tracking-tighter text-primary">
+                        <div class="text-[10px] font-black opacity-30 mb-1 uppercase tracking-[0.2em]">@(isEn ? "FINAL PRICE" : "قیمت نهایی")</div>
+                        <div class="text-5xl font-black tracking-tighter text-primary">
                             <span id="display-price">@Model.Product.Variants.FirstOrDefault()?.Price.ToString("N0")</span>
-                            <span class="text-sm font-bold opacity-50 mr-1">@(isEn ? "Toman" : "تومان")</span>
+                            <span class="text-sm font-bold opacity-40 mr-1">@(isEn ? "Toman" : "تومان")</span>
                         </div>
                     </div>
-                    <button id="add-to-cart-btn" class="btn-modern btn-primary px-10 py-5 text-lg shadow-2xl">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-                        @(isEn ? "Add to Cart" : "افزودن به سبد")
+                    <button id="add-to-cart-btn" class="btn-modern btn-primary px-12 py-6 text-xl shadow-2xl shadow-blue-600/30">
+                        @(isEn ? "Add to Cart" : "افزودن به سبد خرید")
                     </button>
                 </div>
             </div>

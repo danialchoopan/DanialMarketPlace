@@ -9,7 +9,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
           SELECT 1
           FROM "Products" AS "p")
 info: Microsoft.Hosting.Lifetime[14]
-      Now listening on: http://localhost:5294
+      Now listening on: http://localhost:5000
 info: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 info: Microsoft.Hosting.Lifetime[0]
@@ -17,25 +17,48 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: /app/MarketPlaceCore/src/MarketPlaceCore.Web
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (6ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "p0"."Id", "p0"."Color", "p0"."CreatedAt", "p0"."Price", "p0"."ProductId", "p0"."Size", "p0"."Stock", "p0"."Warranty"
-      FROM "Products" AS "p"
-      LEFT JOIN "ProductVariants" AS "p0" ON "p"."Id" = "p0"."ProductId"
-      WHERE "p"."Id" = @__id_0
-      ORDER BY "p"."Id"
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      SELECT "r"."Id", "r"."Comment", "r"."CreatedAt", "r"."IsVerifiedPurchase", "r"."ProductId", "r"."Rating", "r"."UserId", "u"."Id", "u"."CreatedAt", "u"."Email", "u"."FullName", "u"."OtpCode", "u"."OtpExpiry", "u"."PasswordHash", "u"."PhoneNumber", "u"."Role", "u"."Username"
-      FROM "Reviews" AS "r"
-      INNER JOIN "Users" AS "u" ON "r"."UserId" = "u"."Id"
-      WHERE "r"."ProductId" = @__id_0
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."Id", "c"."CreatedAt", "c"."Name"
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
       FROM "Categories" AS "c"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."Id", "c"."CreatedAt", "c"."Name"
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name"
+      FROM "Products" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
       FROM "Categories" AS "c"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
@@ -47,12 +70,119 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM "ProductVariants" AS "p"
       WHERE "p"."ProductId" = @__p_Id_0
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."Id", "c"."CreatedAt", "c"."Name"
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "c"."Id", "p0"."Id", "p0"."Color", "p0"."CreatedAt", "p0"."Price", "p0"."ProductId", "p0"."Size", "p0"."Stock", "p0"."Warranty", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Products" AS "p"
+      INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+      LEFT JOIN "ProductVariants" AS "p0" ON "p"."Id" = "p0"."ProductId"
+      WHERE "p"."Id" = @__id_0
+      ORDER BY "p"."Id", "c"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "r"."Id", "r"."Comment", "r"."CreatedAt", "r"."IsVerifiedPurchase", "r"."ProductId", "r"."Rating", "r"."UserId", "u"."Id", "u"."CreatedAt", "u"."Email", "u"."FullName", "u"."OtpCode", "u"."OtpExpiry", "u"."PasswordHash", "u"."PhoneNumber", "u"."Role", "u"."Username"
+      FROM "Reviews" AS "r"
+      INNER JOIN "Users" AS "u" ON "r"."UserId" = "u"."Id"
+      WHERE "r"."ProductId" = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "c"."Id", "p0"."Id", "p0"."Color", "p0"."CreatedAt", "p0"."Price", "p0"."ProductId", "p0"."Size", "p0"."Stock", "p0"."Warranty", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Products" AS "p"
+      INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+      LEFT JOIN "ProductVariants" AS "p0" ON "p"."Id" = "p0"."ProductId"
+      WHERE "p"."Id" = @__id_0
+      ORDER BY "p"."Id", "c"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "r"."Id", "r"."Comment", "r"."CreatedAt", "r"."IsVerifiedPurchase", "r"."ProductId", "r"."Rating", "r"."UserId", "u"."Id", "u"."CreatedAt", "u"."Email", "u"."FullName", "u"."OtpCode", "u"."OtpExpiry", "u"."PasswordHash", "u"."PhoneNumber", "u"."Role", "u"."Username"
+      FROM "Reviews" AS "r"
+      INNER JOIN "Users" AS "u" ON "r"."UserId" = "u"."Id"
+      WHERE "r"."ProductId" = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
       FROM "Categories" AS "c"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."Id", "c"."CreatedAt", "c"."Name"
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name"
+      FROM "Products" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name"
+      FROM "Products" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_Id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Color", "p"."CreatedAt", "p"."Price", "p"."ProductId", "p"."Size", "p"."Stock", "p"."Warranty"
+      FROM "ProductVariants" AS "p"
+      WHERE "p"."ProductId" = @__p_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
       FROM "Categories" AS "c"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
@@ -80,16 +210,29 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       WHERE "p"."ProductId" = @__p_Id_0
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "p0"."Id", "p0"."Color", "p0"."CreatedAt", "p0"."Price", "p0"."ProductId", "p0"."Size", "p0"."Stock", "p0"."Warranty"
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "c"."Id", "p0"."Id", "p0"."Color", "p0"."CreatedAt", "p0"."Price", "p0"."ProductId", "p0"."Size", "p0"."Stock", "p0"."Warranty", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
       FROM "Products" AS "p"
+      INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
       LEFT JOIN "ProductVariants" AS "p0" ON "p"."Id" = "p0"."ProductId"
       WHERE "p"."Id" = @__id_0
-      ORDER BY "p"."Id"
+      ORDER BY "p"."Id", "c"."Id"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT "r"."Id", "r"."Comment", "r"."CreatedAt", "r"."IsVerifiedPurchase", "r"."ProductId", "r"."Rating", "r"."UserId", "u"."Id", "u"."CreatedAt", "u"."Email", "u"."FullName", "u"."OtpCode", "u"."OtpExpiry", "u"."PasswordHash", "u"."PhoneNumber", "u"."Role", "u"."Username"
       FROM "Reviews" AS "r"
       INNER JOIN "Users" AS "u" ON "r"."UserId" = "u"."Id"
       WHERE "r"."ProductId" = @__id_0
-info: Microsoft.Hosting.Lifetime[0]
-      Application is shutting down...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "c"."Id", "p0"."Id", "p0"."Color", "p0"."CreatedAt", "p0"."Price", "p0"."ProductId", "p0"."Size", "p0"."Stock", "p0"."Warranty", "c"."CreatedAt", "c"."ImageUrl", "c"."Name"
+      FROM "Products" AS "p"
+      INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+      LEFT JOIN "ProductVariants" AS "p0" ON "p"."Id" = "p0"."ProductId"
+      WHERE "p"."Id" = @__id_0
+      ORDER BY "p"."Id", "c"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "r"."Id", "r"."Comment", "r"."CreatedAt", "r"."IsVerifiedPurchase", "r"."ProductId", "r"."Rating", "r"."UserId", "u"."Id", "u"."CreatedAt", "u"."Email", "u"."FullName", "u"."OtpCode", "u"."OtpExpiry", "u"."PasswordHash", "u"."PhoneNumber", "u"."Role", "u"."Username"
+      FROM "Reviews" AS "r"
+      INNER JOIN "Users" AS "u" ON "r"."UserId" = "u"."Id"
+      WHERE "r"."ProductId" = @__id_0
