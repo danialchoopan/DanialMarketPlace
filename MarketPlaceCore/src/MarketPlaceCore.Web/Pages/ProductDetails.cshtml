@@ -1,19 +1,157 @@
-@page
+@page "{id:int}"
 @model MarketPlaceCore.Web.Pages.ProductDetailsModel
 @{
-    ViewData["Title"] = "جزئیات محصول";
+    ViewData["Title"] = Model.Product?.Name ?? "جزئیات محصول";
 }
+
 @if (Model.Product != null)
 {
-    <div class="flex flex-col md:flex-row gap-12">
-        <div class="w-full md:w-1/2 bg-gray-100 dark:bg-gray-700 h-96 rounded-lg flex items-center justify-center">
-            <span class="text-gray-400">تصویر محصول</span>
+    <div class="flex flex-col lg:flex-row gap-12 mb-16">
+        <!-- Image Gallery -->
+        <div class="w-full lg:w-2/5">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl border dark:border-gray-700 p-8 shadow-sm aspect-square flex items-center justify-center sticky top-24">
+                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-gray-200 dark:text-gray-600"><path d="M5 9l4-4 4 4M9 5v14"></path><circle cx="9" cy="19" r="2"></circle><path d="M15 19l4-4 4 4M19 15v4"></path></svg>
+            </div>
         </div>
-        <div class="w-full md:w-1/2">
-            <h2 class="text-3xl font-bold mb-4">@Model.Product.Name</h2>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">@Model.Product.Description</p>
-            <p class="text-2xl font-bold text-blue-600 mb-8">@Model.Product.Price.ToString("N0") تومان</p>
-            <button class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 w-full md:w-auto">افزودن به سبد خرید</button>
+
+        <!-- Product Info -->
+        <div class="flex-1">
+            <div class="flex justify-between items-start mb-4">
+                <h1 class="text-3xl font-extrabold">@Model.Product.Name</h1>
+                <button class="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-red-500 transition" onclick="addToWishlist(@Model.Product.Id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                </button>
+            </div>
+
+            <p class="text-gray-500 dark:text-gray-400 mb-8 leading-loose">@Model.Product.Description</p>
+
+            <!-- Variants Selection -->
+            <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl mb-8">
+                <h3 class="font-bold mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg>
+                    انتخاب تنوع محصول
+                </h3>
+                <div class="flex flex-wrap gap-3" id="variant-container">
+                    @foreach (var v in Model.Product.Variants)
+                    {
+                        <button class="variant-btn border-2 border-gray-200 dark:border-gray-700 px-4 py-2 rounded-xl text-sm font-medium hover:border-primary transition"
+                                data-id="@v.Id" data-price="@v.Price" data-stock="@v.Stock" data-warranty="@v.Warranty">
+                            @v.Color - @v.Size
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Price & Buy -->
+            <div class="flex items-center justify-between gap-6 p-6 border-t dark:border-gray-800">
+                <div>
+                    <p class="text-sm opacity-60 mb-1">قیمت نهایی</p>
+                    <p class="text-4xl font-black text-primary" id="display-price">---</p>
+                </div>
+                <div class="flex-1 max-w-xs">
+                    <button id="add-to-cart-btn" disabled class="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition disabled:opacity-50 disabled:grayscale">
+                        افزودن به سبد خرید
+                    </button>
+                </div>
+            </div>
+            <p class="text-xs text-center mt-4 text-gray-400" id="stock-info"></p>
+        </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="mt-16">
+        <h2 class="text-3xl font-extrabold mb-12">نظرات و بررسی‌ها</h2>
+        <div class="grid lg:grid-cols-3 gap-12">
+            <!-- Summary -->
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl border dark:border-gray-700 h-fit">
+                <div class="text-center mb-8">
+                    <div class="text-6xl font-black text-primary">@Model.Product.AverageRating.ToString("0.0")</div>
+                    <div class="text-gray-400 mt-2 text-sm">میانگین امتیاز از @Model.Product.Reviews.Count نظر</div>
+                </div>
+                <div class="space-y-3">
+                    @for(int i=5; i>=1; i--)
+                    {
+                        var count = Model.Product.Reviews.Count(r => r.Rating == i);
+                        var percent = Model.Product.Reviews.Any() ? (count * 100 / Model.Product.Reviews.Count) : 0;
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs w-4">@i</span>
+                            <div class="flex-1 h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full bg-yellow-400" style="width: @percent%"></div>
+                            </div>
+                            <span class="text-[10px] w-8 text-gray-400">@percent%</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- List -->
+            <div class="lg:col-span-2 space-y-6">
+                @foreach(var review in Model.Product.Reviews.OrderByDescending(r => r.CreatedAt))
+                {
+                    <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border dark:border-gray-700">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="font-bold flex items-center gap-2">
+                                @review.User.FullName
+                                @if(review.IsVerifiedPurchase)
+                                {
+                                    <span class="bg-emerald-50 text-emerald-600 text-[10px] px-2 py-0.5 rounded-full border border-emerald-100 font-medium">خریدار این محصول</span>
+                                }
+                            </div>
+                            <div class="text-yellow-500 text-xs">@string.Concat(Enumerable.Repeat("★", review.Rating))</div>
+                        </div>
+                        <p class="text-sm leading-loose opacity-80">@review.Comment</p>
+                        <div class="mt-4 text-[10px] text-gray-400">@review.CreatedAt.ToShortDateString()</div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 }
+
+<script>
+    let selectedVariantId = null;
+    const variantBtns = document.querySelectorAll('.variant-btn');
+    const priceDisplay = document.getElementById('display-price');
+    const stockInfo = document.getElementById('stock-info');
+    const buyBtn = document.getElementById('add-to-cart-btn');
+
+    variantBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            variantBtns.forEach(b => b.classList.remove('border-primary', 'bg-primary/5'));
+            btn.classList.add('border-primary', 'bg-primary/5');
+
+            selectedVariantId = btn.dataset.id;
+            const price = parseInt(btn.dataset.price).toLocaleString();
+            priceDisplay.innerText = price + ' تومان';
+            stockInfo.innerText = btn.dataset.stock + ' عدد در انبار موجود است - ' + btn.dataset.warranty;
+            buyBtn.disabled = parseInt(btn.dataset.stock) <= 0;
+        });
+    });
+
+    buyBtn.addEventListener('click', () => {
+        if(!selectedVariantId) return;
+        const cartItem = {
+            productId: @Model.Product?.Id,
+            variantId: parseInt(selectedVariantId),
+            name: '@Model.Product?.Name',
+            price: parseInt(document.querySelector('.variant-btn.border-primary').dataset.price),
+            quantity: 1
+        };
+        addToCart(cartItem);
+    });
+
+    function addToCart(item) {
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const existing = cart.find(i => i.variantId === item.variantId);
+        if(existing) existing.quantity++;
+        else cart.push(item);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('به سبد خرید اضافه شد');
+        window.location.href = '/Cart';
+    }
+
+    async function addToWishlist(pid) {
+        // Logic for calling API
+        alert('به لیست علاقه‌مندی‌ها اضافه شد');
+    }
+</script>

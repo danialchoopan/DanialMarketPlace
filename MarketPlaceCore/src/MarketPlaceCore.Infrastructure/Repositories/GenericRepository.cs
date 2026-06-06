@@ -24,9 +24,22 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _context.Set<T>().ToListAsync();
     }
 
-    public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+    public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)
     {
-        return _context.Set<T>().Where(expression);
+        return await _context.Set<T>().Where(expression).ToListAsync();
+    }
+
+    public async Task<IEnumerable<T>> FindWithIncludes(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
+    {
+        IQueryable<T> query = _context.Set<T>();
+        if (includes != null)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+        return await query.Where(expression).ToListAsync();
     }
 
     public async Task AddAsync(T entity)

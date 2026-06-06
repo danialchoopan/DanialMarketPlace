@@ -1,131 +1,13 @@
 Using launch settings from /app/MarketPlaceCore/src/MarketPlaceCore.Web/Properties/launchSettings.json...
 Building...
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (20ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      PRAGMA journal_mode = 'wal';
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE TABLE "Categories" (
-          "Id" INTEGER NOT NULL CONSTRAINT "PK_Categories" PRIMARY KEY AUTOINCREMENT,
-          "Name" TEXT NOT NULL,
-          "CreatedAt" TEXT NOT NULL
-      );
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE TABLE "Users" (
-          "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
-          "Username" TEXT NOT NULL,
-          "PasswordHash" TEXT NOT NULL,
-          "Email" TEXT NOT NULL,
-          "FullName" TEXT NOT NULL,
-          "Role" TEXT NOT NULL,
-          "CreatedAt" TEXT NOT NULL
-      );
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE TABLE "Products" (
-          "Id" INTEGER NOT NULL CONSTRAINT "PK_Products" PRIMARY KEY AUTOINCREMENT,
-          "Name" TEXT NOT NULL,
-          "Description" TEXT NOT NULL,
-          "Price" REAL NOT NULL,
-          "Stock" INTEGER NOT NULL,
-          "ImageUrl" TEXT NOT NULL,
-          "CategoryId" INTEGER NOT NULL,
-          "CreatedAt" TEXT NOT NULL,
-          CONSTRAINT "FK_Products_Categories_CategoryId" FOREIGN KEY ("CategoryId") REFERENCES "Categories" ("Id") ON DELETE CASCADE
-      );
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE TABLE "Orders" (
-          "Id" INTEGER NOT NULL CONSTRAINT "PK_Orders" PRIMARY KEY AUTOINCREMENT,
-          "UserId" INTEGER NOT NULL,
-          "OrderDate" TEXT NOT NULL,
-          "TotalAmount" TEXT NOT NULL,
-          "Status" INTEGER NOT NULL,
-          "CreatedAt" TEXT NOT NULL,
-          CONSTRAINT "FK_Orders_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE CASCADE
-      );
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE TABLE "OrderItems" (
-          "Id" INTEGER NOT NULL CONSTRAINT "PK_OrderItems" PRIMARY KEY AUTOINCREMENT,
-          "OrderId" INTEGER NOT NULL,
-          "ProductId" INTEGER NOT NULL,
-          "Quantity" INTEGER NOT NULL,
-          "UnitPrice" TEXT NOT NULL,
-          "CreatedAt" TEXT NOT NULL,
-          CONSTRAINT "FK_OrderItems_Orders_OrderId" FOREIGN KEY ("OrderId") REFERENCES "Orders" ("Id") ON DELETE CASCADE,
-          CONSTRAINT "FK_OrderItems_Products_ProductId" FOREIGN KEY ("ProductId") REFERENCES "Products" ("Id") ON DELETE CASCADE
-      );
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE INDEX "IX_OrderItems_OrderId" ON "OrderItems" ("OrderId");
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE INDEX "IX_OrderItems_ProductId" ON "OrderItems" ("ProductId");
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE INDEX "IX_Orders_UserId" ON "Orders" ("UserId");
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      CREATE INDEX "IX_Products_CategoryId" ON "Products" ("CategoryId");
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT EXISTS (
           SELECT 1
           FROM "Products" AS "p")
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Categories" ("CreatedAt", "Name")
-      VALUES (@p0, @p1)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Categories" ("CreatedAt", "Name")
-      VALUES (@p0, @p1)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Categories" ("CreatedAt", "Name")
-      VALUES (@p0, @p1)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 18), @p3='?' (Size = 20), @p4='?' (Size = 20), @p5='?' (DbType = Double), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Products" ("CategoryId", "CreatedAt", "Description", "ImageUrl", "Name", "Price", "Stock")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 16), @p3='?' (Size = 18), @p4='?' (Size = 12), @p5='?' (DbType = Double), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Products" ("CategoryId", "CreatedAt", "Description", "ImageUrl", "Name", "Price", "Stock")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 12), @p3='?' (Size = 18), @p4='?' (Size = 13), @p5='?' (DbType = Double), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Products" ("CategoryId", "CreatedAt", "Description", "ImageUrl", "Name", "Price", "Stock")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 11), @p3='?' (Size = 17), @p4='?' (Size = 9), @p5='?' (DbType = Double), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Products" ("CategoryId", "CreatedAt", "Description", "ImageUrl", "Name", "Price", "Stock")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime), @p2='?' (Size = 8), @p3='?' (Size = 18), @p4='?' (Size = 8), @p5='?' (DbType = Double), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Products" ("CategoryId", "CreatedAt", "Description", "ImageUrl", "Name", "Price", "Stock")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 21), @p2='?' (Size = 10), @p3='?' (Size = 8), @p4='?' (Size = 5), @p5='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Users" ("CreatedAt", "Email", "FullName", "PasswordHash", "Role", "Username")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
-      RETURNING "Id";
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 20), @p2='?' (Size = 11), @p3='?' (Size = 7), @p4='?' (Size = 8), @p5='?' (Size = 4)], CommandType='Text', CommandTimeout='30']
-      INSERT INTO "Users" ("CreatedAt", "Email", "FullName", "PasswordHash", "Role", "Username")
-      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
-      RETURNING "Id";
-warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
-      No XML encryptor configured. Key {fce89941-9313-4bb0-8a07-d2416d258fde} may be persisted to storage in unencrypted form.
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://localhost:5000
 info: Microsoft.Hosting.Lifetime[0]
@@ -136,6 +18,14 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: /app/MarketPlaceCore/src/MarketPlaceCore.Web
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedAt", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT "p"."Id", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."Price", "p"."Stock"
       FROM "Products" AS "p"
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]

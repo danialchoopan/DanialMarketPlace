@@ -1,0 +1,118 @@
+@page
+@model MarketPlaceCore.Web.Pages.LoginModel
+@{
+    ViewData["Title"] = "ورود به حساب";
+}
+
+<div class="max-w-md mx-auto mt-16">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border dark:border-gray-700 shadow-xl overflow-hidden relative">
+        <div class="flex border-b dark:border-gray-700 mb-8">
+            <button onclick="toggleTab('password')" id="tab-pass" class="flex-1 py-4 font-bold text-sm border-b-2 border-primary text-primary transition">ورود با پسورد</button>
+            <button onclick="toggleTab('otp')" id="tab-otp" class="flex-1 py-4 font-bold text-sm border-b-2 border-transparent opacity-50 transition">ورود سریع (OTP)</button>
+        </div>
+
+        <!-- Password Form -->
+        <div id="form-pass" class="space-y-6">
+            <div>
+                <label class="block text-[10px] font-bold mb-2 opacity-50 uppercase tracking-widest">نام کاربری</label>
+                <input type="text" id="username" class="w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 rounded-2xl p-4 text-sm outline-none focus:border-primary transition">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold mb-2 opacity-50 uppercase tracking-widest">رمز عبور</label>
+                <input type="password" id="password" class="w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 rounded-2xl p-4 text-sm outline-none focus:border-primary transition">
+            </div>
+            <button onclick="loginPassword()" class="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition">ورود به پنل</button>
+        </div>
+
+        <!-- OTP Form -->
+        <div id="form-otp" class="space-y-6" style="display:none">
+            <div id="otp-step-1">
+                <label class="block text-[10px] font-bold mb-2 opacity-50 uppercase tracking-widest">شماره موبایل</label>
+                <input type="text" id="phone" placeholder="09120000000" class="w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 rounded-2xl p-4 text-sm outline-none focus:border-primary transition text-left font-mono">
+                <button onclick="requestOtp()" class="w-full mt-6 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white py-4 rounded-2xl font-bold hover:bg-gray-200 transition">ارسال کد تایید</button>
+            </div>
+            <div id="otp-step-2" style="display:none">
+                <label class="block text-[10px] font-bold mb-2 opacity-50 uppercase tracking-widest">کد تایید ۵ رقمی</label>
+                <input type="text" id="otp-code" class="w-full bg-gray-50 dark:bg-gray-900 border dark:border-gray-700 rounded-2xl p-4 text-center text-2xl font-black tracking-[1rem] outline-none focus:border-primary transition">
+                <button onclick="loginOtp()" class="w-full mt-6 bg-primary text-white py-4 rounded-2xl font-bold shadow-lg transition">تایید و ورود</button>
+                <button onclick="resetOtp()" class="w-full mt-2 text-xs opacity-50 hover:opacity-100 transition">اصلاح شماره موبایل</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function toggleTab(type) {
+        const passTab = document.getElementById('tab-pass');
+        const otpTab = document.getElementById('tab-otp');
+        const passForm = document.getElementById('form-pass');
+        const otpForm = document.getElementById('form-otp');
+
+        if(type === 'password') {
+            passTab.classList.add('border-primary', 'text-primary');
+            passTab.classList.remove('border-transparent', 'opacity-50');
+            otpTab.classList.remove('border-primary', 'text-primary');
+            otpTab.classList.add('border-transparent', 'opacity-50');
+            passForm.style.display = 'block';
+            otpForm.style.display = 'none';
+        } else {
+            otpTab.classList.add('border-primary', 'text-primary');
+            otpTab.classList.remove('border-transparent', 'opacity-50');
+            passTab.classList.remove('border-primary', 'text-primary');
+            passTab.classList.add('border-transparent', 'opacity-50');
+            otpForm.style.display = 'block';
+            passForm.style.display = 'none';
+        }
+    }
+
+    async function loginPassword() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        const res = await fetch('/api/Account/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: u, password: p})
+        });
+        if(res.ok) handleLoginSuccess(await res.json());
+        else alert('خطا در ورود');
+    }
+
+    async function requestOtp() {
+        const phone = document.getElementById('phone').value;
+        const res = await fetch('/api/Account/otp-request', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(phone)
+        });
+        if(res.ok) {
+            document.getElementById('otp-step-1').style.display = 'none';
+            document.getElementById('otp-step-2').style.display = 'block';
+            alert(await res.text());
+        } else alert('شماره یافت نشد');
+    }
+
+    async function loginOtp() {
+        const phone = document.getElementById('phone').value;
+        const code = document.getElementById('otp-code').value;
+        const res = await fetch('/api/Account/otp-login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({phoneNumber: phone, code: code})
+        });
+        if(res.ok) handleLoginSuccess(await res.json());
+        else alert('کد اشتباه است');
+    }
+
+    function handleLoginSuccess(data) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
+        window.location.href = data.role === 'Admin' ? '/Admin' : '/';
+    }
+
+    function resetOtp() {
+        document.getElementById('otp-step-1').style.display = 'block';
+        document.getElementById('otp-step-2').style.display = 'none';
+    }
+</script>
+}
